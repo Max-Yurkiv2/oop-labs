@@ -1,0 +1,40 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+double b_func(double x, double y, double z) {
+    return pow(cos(atan((pow(x, 3) + y) / (1 + pow(fabs(z), 0.5)))), 2)
+        + y * exp((3 * z - y) / (z + x));
+}
+
+double a_func(double x, double y, double z, double b) {
+    return (1 + sqrt(pow(sin(pow(fabs(x + y), 0.3)), 2))) /
+        (0.3 + pow(b, 2) + pow(sin(pow(fabs(z), 1.3)), 2))
+        + tan(3 * x / z);
+}
+
+int main() {
+
+    double y = 0.47 * 13;
+    double z = -1.32 * 13;
+
+
+    double x_start = -1.0;
+    double x_end = 1.0;
+    double dx = 0.2;
+
+    cout << fixed << setprecision(6);
+    cout << "    x          b(x,y,z)          a(x,y,z,b)\n";
+    cout << "---------------------------------------------\n";
+
+    for (double x = x_start; x <= x_end + 1e-9; x += dx) {
+        double b = b_func(x, y, z);
+        double a = a_func(x, y, z, b);
+        cout << setw(7) << x << "   "
+            << setw(15) << b << "   "
+            << setw(15) << a << endl;
+    }
+
+    return 0;
+}
