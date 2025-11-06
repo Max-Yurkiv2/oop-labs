@@ -1,0 +1,121 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Faculty {
+    String name;     // назва факультету
+    int building;    // номер корпусу
+
+    public Faculty(String name, int building) {
+        this.name = name;
+        this.building = building;
+    }
+
+    @Override
+    public String toString() {
+        return name + " — корпус №" + building;
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Динамічний масив
+        List<Faculty> faculties = new ArrayList<>();
+
+        // Додаємо мінімум 10 елементів
+        faculties.add(new Faculty("ФІТ", 1));
+        faculties.add(new Faculty("ФЕА", 2));
+        faculties.add(new Faculty("ФПГ", 3));
+        faculties.add(new Faculty("ФБМ", 4));
+        faculties.add(new Faculty("ФЛ", 5));
+        faculties.add(new Faculty("ЕП", 6));
+        faculties.add(new Faculty("ПМ", 7));
+        faculties.add(new Faculty("БТЕ", 8));
+        faculties.add(new Faculty("АС", 9));
+        faculties.add(new Faculty("ЛГІ", 10));
+
+        int choice;
+
+        do {
+            System.out.println("\n=== Меню ===");
+            System.out.println("1 — Додати факультет");
+            System.out.println("2 — Пошук факультету за назвою");
+            System.out.println("3 — Видалити факультет");
+            System.out.println("4 — Показати всі");
+            System.out.println("5 — Пошук факультету за індексом");
+            System.out.println("0 — Вихід");
+            System.out.print("Ваш вибір: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Назва факультету: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Номер корпусу: ");
+                    int building = scanner.nextInt();
+                    faculties.add(new Faculty(name, building));
+                    System.out.println("✅ Додано!");
+                    break;
+
+                case 2:
+                    System.out.print("Введіть назву для пошуку: ");
+                    String search = scanner.nextLine();
+                    boolean found = false;
+
+                    for (Faculty f : faculties) {
+                        if (f.name.equalsIgnoreCase(search)) {
+                            System.out.println("✅ Знайдено: " + f);
+                            found = true;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("❌ Не знайдено.");
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Введіть назву факультету для видалення: ");
+                    String del = scanner.nextLine();
+                    boolean removed = faculties.removeIf(f -> f.name.equalsIgnoreCase(del));
+
+                    if (removed) {
+                        System.out.println("✅ Видалено!");
+                    } else {
+                        System.out.println("❌ Такого факультету нема.");
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("\n=== Усі факультети ===");
+                    for (int i = 0; i < faculties.size(); i++) {
+                        System.out.println(i + ": " + faculties.get(i));
+                    }
+                    break;
+
+                case 5:
+                    System.out.print("Введіть індекс: ");
+                    int index = scanner.nextInt();
+
+                    if (index >= 0 && index < faculties.size()) {
+                        System.out.println("✅ Елемент за індексом " + index + ":");
+                        System.out.println(faculties.get(index));
+                    } else {
+                        System.out.println("❌ Невірний індекс! Доступні індекси: 0 — " + (faculties.size() - 1));
+                    }
+                    break;
+
+                case 0:
+                    System.out.println("Вихід...");
+                    break;
+
+                default:
+                    System.out.println("Невірний вибір!");
+            }
+
+        } while (choice != 0);
+    }
+}
